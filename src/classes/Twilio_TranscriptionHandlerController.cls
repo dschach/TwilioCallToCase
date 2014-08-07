@@ -27,20 +27,20 @@ public with sharing class Twilio_TranscriptionHandlerController {
 		Case ca = createCase(c, params);
 		
 		if (ca != null) {
-			ca = [SELECT CaseNumber, OwnerId FROM Case WHERE Id = :ca.Id LIMIT 1];
+			ca = [SELECT CaseNumber, Description, OwnerId FROM Case WHERE Id = :ca.Id LIMIT 1];
 			User u = [SELECT Id, MobilePhone FROM User WHERE Id = :ca.OwnerId LIMIT 1];
 			System.debug('FROM: ' + params.get('Called'));
 			System.debug('TO: ' + u.MobilePhone);
 			sendSMS(params.get('Called'), u.MobilePhone, 'You have a new Case: ' + ca.CaseNumber);
 			sendSMS(params.get('Called'), params.get('From'), 'Case ' + ca.CaseNumber + ' received.');
-			callbackCaseConfirm(params.get('Called'), params.get('From'), ca.CaseNumber);
+			callbackCaseConfirm(params.get('Called'), params.get('From'), ca.CaseNumber, ca.Description);
 		}
 		
 		return null;
 	}
 	
 	@future(callout = true)
-	public static void callbackCaseConfirm(String fromNumber, String toNumber, String theCaseNum) {
+	public static void callbackCaseConfirm(String fromNumber, String toNumber, String theCaseNum, String theVM) {
 	
 		String myNum = theCaseNum;
 		Integer myNumLength = myNum.length();
@@ -63,11 +63,19 @@ public with sharing class Twilio_TranscriptionHandlerController {
 		    System.debug('CASE: ' + theCaseNum + ' - ' + urlNum);
 		*/
 		
+		String theURL = 'http://twiliodev1-developer-edition.na17.force.com/CaseConfirmCall?cNum=' + urlNum;
+		if(!String.isEmpty(theVM)){
+			if(theVM.length() > 2000){
+				theVM = theVM.left(2000);
+			}
+			theURL += '&theText=' + EncodingUtil.urlEncode(theVM, 'UTF-8');
+		}
+		
 		Map<String, String> params = new Map<String, String>();
 		params.put('To', toNumber);
 		params.put('From', fromNumber);
 		// ### Todo: Replace this URL with your site URL! ###
-		params.put('Url', 'http://twiliodev1-developer-edition.na17.force.com/CaseConfirmCall?cNum=' + urlNum);
+		params.put('Url', theURL);
 		TwilioCall call = t_account.getCalls().create(params);
 	}
 	

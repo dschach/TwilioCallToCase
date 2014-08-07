@@ -6,43 +6,24 @@
     </types>
     <types>
         <members>*</members>
-        <name>ApexComponent</name>
-    </types>
-    <types>
-        <members>*</members>
         <name>ApexPage</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexTrigger</name>
     </types>
     <types>
         <members>Case.AccountId</members>
         <members>Case.AssetId</members>
         <members>Case.BusinessHoursId</members>
         <members>Case.ContactId</members>
-        <members>Case.EngineeringReqNumber__c</members>
         <members>Case.Origin</members>
         <members>Case.OwnerId</members>
         <members>Case.ParentId</members>
-        <members>Case.PotentialLiability__c</members>
         <members>Case.Priority</members>
         <members>Case.Product__c</members>
         <members>Case.Reason</members>
         <members>Case.Recording_URL__c</members>
-        <members>Case.SLAViolation__c</members>
         <members>Case.Status</members>
         <members>Case.Type</members>
         <members>Case.VoicemailId__c</members>
         <name>CustomField</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>RemoteSiteSetting</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>StaticResource</name>
     </types>
     <version>30.0</version>
 </Package>
