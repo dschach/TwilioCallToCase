@@ -1,5 +1,6 @@
 public with sharing class Twilio_TranscriptionHandlerController {
 
+
 	static TwilioAccount t_account = TwilioAPI.getDefaultAccount();
 	
 	public PageReference onLoad() {
@@ -32,7 +33,7 @@ public with sharing class Twilio_TranscriptionHandlerController {
 			System.debug('TO: ' + u.MobilePhone);
 			sendSMS(params.get('Called'), u.MobilePhone, 'You have a new Case: ' + ca.CaseNumber);
 			sendSMS(params.get('Called'), params.get('From'), 'Case ' + ca.CaseNumber + ' received.');
-			callbackCaseConfirm(params.get('Called'), params.get('From'), String.valueof(ca.CaseNumber));
+			callbackCaseConfirm(params.get('Called'), params.get('From'), ca.CaseNumber);
 		}
 		
 		return null;
@@ -45,17 +46,18 @@ public with sharing class Twilio_TranscriptionHandlerController {
 		Integer myNumLength = myNum.length();
 		
 		List<String> chars = new List<String>();
-		/*
-		    for (Integer i = 0; i < myNumLength; i++) {
-			chars.add(myNum.substring(i, i + 1));
-		    }
 		
-		    System.debug(chars);
-		*/
+		for (Integer i = 0; i < myNumLength; i++) {
+			chars.add(myNum.substring(i, i + 1));
+		}
+		
+		System.debug('chars: ' + chars);
+		
 		
 		String urlNum = String.join(chars, ' ');
+		System.debug('urlNum: ' + urlNum);
 		urlNum = EncodingUtil.urlEncode(urlNum, 'UTF-8');
-		
+		System.debug('urlNum: ' + urlNum);
 		/*
 		    System.debug('CALLING: ' + toNumber);
 		    System.debug('CASE: ' + theCaseNum + ' - ' + urlNum);
@@ -64,6 +66,7 @@ public with sharing class Twilio_TranscriptionHandlerController {
 		Map<String, String> params = new Map<String, String>();
 		params.put('To', toNumber);
 		params.put('From', fromNumber);
+		// ### Todo: Replace this URL with your site URL! ###
 		params.put('Url', 'http://twiliodev1-developer-edition.na17.force.com/CaseConfirmCall?cNum=' + urlNum);
 		TwilioCall call = t_account.getCalls().create(params);
 	}
