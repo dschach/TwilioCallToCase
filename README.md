@@ -5,6 +5,11 @@ Use Twilio (requires the Apex helper library) to leave a voicemail, which is tra
 
 You must install the Twilio Salesforce library first and set up your Twilio account.
 
+<a href="https://githubsfdeploy.herokuapp.com?owner=dschach&repo=TwilioCallToCase">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
+</a>
+
 Create a Force.com Site and add the three pages in this repository to the site.
 
 Sign up for a Twilio number and set the call URL to the 'site base URL' + '/CallToCase'.
